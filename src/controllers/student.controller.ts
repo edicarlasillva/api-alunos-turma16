@@ -75,6 +75,46 @@ export class StudentController {
   }
 
   // update -> atualiza um recurso
+  public async update(request: Request, response: Response) {
+    try {
+      const { id } = request.params
+      const { name, age, password, email } = request.body
+
+      const result = await studentService.update({
+        id,
+        name,
+        password,
+        age,
+        email
+      })
+
+      response.status(result.code).json(result)
+
+    } catch (error) {
+      // tratamento de erro
+      return response.status(500).json({
+        success: false,
+        code: response.statusCode,
+        message: 'Erro ao atualizar aluno.',
+      })
+    }
+  }
 
   // delete/destroy -> exclui um recurso
+  public async delete(request: Request, response: Response) {
+    try {
+      const { id } = request.params
+
+      const result = await studentService.delete(id)
+
+      response.status(result.code).json(result)
+    } catch (error) {
+      // tratamento de erro
+      return response.status(500).json({
+        success: false,
+        code: response.statusCode,
+        message: 'Erro ao exluir aluno.',
+      })
+    }
+  }
 }

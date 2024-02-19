@@ -4,3 +4,11 @@ export interface CreateStudentDTO {
   password: string
   age?: number
 }
+
+export interface UpdateStudentDTO {
+  id: string
+  email?: string
+  name?: string
+  password?: string
+  age?: number
+}
