@@ -1,6 +1,5 @@
 import { Request, Response } from 'express'
 
-import { repository } from '../database/prisma.connection'
 import { StudentService } from '../services/student.service'
 import { CreateStudentDTO } from '../dtos/students.dto';
 
