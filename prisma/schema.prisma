@@ -22,23 +22,23 @@ model Student {
 
   assessment Assessment[]
 
-  profile Profile?
+  // profile Profile?
 
   @@map("students")
 }
 
-model Profile {
-  id        String    @id @default(uuid()) @db.Uuid
-  bio       String?   @db.Text
-  image     String?   @db.VarChar(255)
-  birthdate DateTime?
+// model Profile {
+//   id        String    @id @default(uuid()) @db.Uuid
+//   bio       String?   @db.Text
+//   image     String?   @db.VarChar(255)
+//   birthdate DateTime?
 
-  createdAt DateTime @default(now()) @map("crated_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
+//   createdAt DateTime @default(now()) @map("crated_at")
+//   updatedAt DateTime @updatedAt @map("updated_at")
 
-  studentId String  @unique @map("student_id") @db.Uuid
-  student   Student @relation(fields: [studentId], references: [id])
-}
+//   studentId String  @unique @map("student_id") @db.Uuid
+//   student   Student @relation(fields: [studentId], references: [id])
+// }
 
 model Assessment {
   id         String  @id @default(uuid()) @db.Uuid

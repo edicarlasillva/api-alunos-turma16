@@ -15,7 +15,7 @@ export class AssessmentService {
 
     const assessments = await repository.assessment.findMany({
       where: {
-        studentId: idStudent
+        idStudent
       }
     })
 
