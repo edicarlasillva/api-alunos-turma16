@@ -6,6 +6,9 @@ export class AssessmentService {
     const student = await repository.student.findUnique({
       where: {
         id: idStudent
+      },
+      include: {
+        assessment: true
       }
     })
 
@@ -13,17 +16,17 @@ export class AssessmentService {
       throw new Error("Aluno não encontrado")
     }
 
-    const assessments = await repository.assessment.findMany({
-      where: {
-        idStudent
-      }
-    })
+    // const assessments = await repository.assessment.findMany({
+    //   where: {
+    //     idStudent
+    //   }
+    // })
 
     return {
       success: true,
       code: 200,
       message: "Avaliações listadas com sucesso.",
-      data: assessments
+      data: student.assessment
     }
   }
 }
