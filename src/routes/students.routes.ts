@@ -22,4 +22,13 @@ router.delete('/students/:id', studentController.delete)
 // Lista avaliações de um usuário
 router.get('/students/:idStudent/assessments', validateToken, assessmentController.index)
 
+// Cria avaliações para um usuário
+router.post('/students/:idStudent/assessments', validateToken, assessmentController.store)
+
+// Atualiza avaliação de um usuário
+router.put('/students/:idStudent/assessments/:id', validateToken, assessmentController.update)
+
+// Exclui avaliação de um usuário
+router.delete('/students/:idStudent/assessments/:id', validateToken, assessmentController.delete)
+
 export default router;

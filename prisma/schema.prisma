@@ -22,7 +22,8 @@ model Student {
   createdAt DateTime @default(now()) @map("crated_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
-  assessment Assessment[]
+  assessment  Assessment[]
+  enrollments Enrollment[]
 
   // profile Profile?
 
@@ -54,4 +55,34 @@ model Assessment {
   student   Student @relation(fields: [idStudent], references: [id])
 
   @@map("assessments")
+}
+
+model Class {
+  id          String @id @default(uuid()) @db.Uuid
+  program     String @db.VarChar(60)
+  edition     String @db.VarChar(60)
+  maxStudents Int    @map("max_students")
+  minStudents Int    @map("min_students")
+
+  createdAt DateTime @default(now()) @map("crated_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  enrollments Enrollment[]
+
+  @@map("classes")
+}
+
+// N-N
+model Enrollment {
+  idStudent String @default(uuid()) @map("id_student") @db.Uuid
+  idClass   String @default(uuid()) @map("id_class") @db.Uuid
+
+  createdAt DateTime @default(now()) @map("crated_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  student Student @relation(fields: [idStudent], references: [id])
+  class   Class   @relation(fields: [idClass], references: [id])
+
+  @@id([idStudent, idClass])
+  @@map("enrollments")
 }
