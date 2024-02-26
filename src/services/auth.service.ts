@@ -3,7 +3,7 @@ import { randomUUID } from "crypto";
 import { repository } from "../database/prisma.connection";
 
 export class AuthService {
-  public async login(email: string, password: string): Promise<string> {
+  public async login(email: string, password: string): Promise<{ token: string, userId: string }> {
     const student = await repository.student.findFirst({
       where: {
         email,
@@ -16,6 +16,7 @@ export class AuthService {
     }
 
     const token = randomUUID()
+    const userId = student.id
 
     await repository.student.update({
       where: {
@@ -26,6 +27,6 @@ export class AuthService {
       }
     })
 
-    return token
+    return { token, userId }
   }
 }

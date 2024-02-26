@@ -7,7 +7,14 @@ import { Student } from "../models/student.model";
 export class StudentService {
   public async findAll(): Promise<ResponseDTO> {
     // entrada e processamento
-    const students = await repository.student.findMany()
+    const students = await repository.student.findMany({
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        age: true
+      }
+    })
 
     return {
       success: true,
