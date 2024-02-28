@@ -13,6 +13,27 @@ export class AssessmentController {
     return response.status(result.code).json(result)
   }
 
+  // show -> detalhes de um único recurso
+  public async show(request: Request, response: Response) {
+    try {
+      // entrada
+      const { idStudent, id } = request.params
+
+      const result = await assessmentService.findById(idStudent, id)
+
+      // saída
+      return response.status(200).json(result)
+    } catch (error) {
+      // tratamento de erro
+      return response.status(500).json({
+        success: false,
+        code: response.statusCode,
+        message: 'Erro ao buscar avaliação.',
+      })
+    }
+  }
+
+
   public async store(request: Request, response: Response) {
     try {
       const { idStudent } = request.params;

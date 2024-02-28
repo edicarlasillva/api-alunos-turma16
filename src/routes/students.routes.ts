@@ -31,4 +31,8 @@ router.put('/students/:idStudent/assessments/:id', validateToken, assessmentCont
 // Exclui avaliação de um usuário
 router.delete('/students/:idStudent/assessments/:id', validateToken, assessmentController.delete)
 
+// Lista por ID da avaliação
+router.get('/students/:idStudent/assessments/:id', validateToken, assessmentController.show)
+
+
 export default router;

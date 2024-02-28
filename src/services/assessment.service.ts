@@ -65,6 +65,23 @@ export class AssessmentService {
     }
   }
 
+  public async findById(idStudent: string, id: string): Promise<ResponseDTO> {
+    const assessment = await repository.assessment.findUnique({
+      where: { idStudent, id }
+    })
+
+    if (!assessment) {
+      throw new Error("Avaliação não encontrada.")
+    }
+
+    return {
+      success: true,
+      code: 200,
+      message: "Avaliação encontrada com sucesso.",
+      data: assessment
+    }
+  }
+
   public async update(assessmentDTO: UpdateAssessmentDTO): Promise<ResponseDTO> {
     const student = await repository.student.findUnique({
       where: {
