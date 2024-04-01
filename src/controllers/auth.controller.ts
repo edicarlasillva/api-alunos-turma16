@@ -17,14 +17,19 @@ export class AuthController {
         })
       }
 
-      const { token, userId } = await authService.login(email, password)
+      const {id, email: userEmail, age, token, name} = await authService.login(email, password)
 
       return response.status(200).json({
         success: true,
         code: response.statusCode,
         message: "Login realizado com sucesso.",
-        token,
-        userId
+        data: {
+          id, 
+          email: userEmail,
+          name,
+          age,
+          token
+        }
       })
     } catch (error) {
       return response.status(500).json({
