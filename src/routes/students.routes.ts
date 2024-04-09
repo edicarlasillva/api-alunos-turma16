@@ -1,8 +1,8 @@
 import express from "express";
 
-import { StudentController } from "../controllers/student.controller";
 import { AssessmentController } from "../controllers/assessment.controller";
-import { validateToken } from "../middlewares/auth.middleware";
+import { StudentController } from "../controllers/student.controller";
+import { validateLoginOlderAge, validateToken } from "../middlewares/auth.middleware";
 
 const router = express.Router();
 
@@ -20,7 +20,7 @@ router.put('/students/:id', studentController.update)
 router.delete('/students/:id', studentController.delete)
 
 // Lista avaliações de um usuário
-router.get('/students/:idStudent/assessments', validateToken, assessmentController.index)
+router.get('/students/:idStudent/assessments', validateToken, validateLoginOlderAge, assessmentController.index)
 
 // Cria avaliações para um usuário
 router.post('/students/:idStudent/assessments', validateToken, assessmentController.store)

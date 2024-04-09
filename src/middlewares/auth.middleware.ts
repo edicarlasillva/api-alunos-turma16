@@ -1,5 +1,7 @@
 import { NextFunction, Request, Response } from "express";
-import { repository } from "../database/prisma.connection";
+import { AuthService } from "../services/auth.service";
+
+const authService = new AuthService()
 
 export async function validateToken(request: Request, response: Response, next: NextFunction) {
   try {
@@ -15,26 +17,54 @@ export async function validateToken(request: Request, response: Response, next: 
       })
     }
 
-    const student = await repository.student.findUnique({
-      where: {
-        id: idStudent
-      }
-    })
+    const result = await authService.validateLogin(authorization, idStudent)
 
-    if (!student || student.token !== authorization) {
-      return response.status(401).json({
-        success: false,
-        code: response.statusCode,
-        message: "Token de autenticação inválido."
-      })
+    if (!result.success) {
+      return response.status(result.code).json(result)
     }
 
+    // const student = await repository.student.findUnique({
+    //   where: {
+    //     id: idStudent
+    //   }
+    // })
+
+    // if (!student || student.token !== authorization) {
+    //   return response.status(401).json({
+    //     success: false,
+    //     code: response.statusCode,
+    //     message: "Token de autenticação inválido."
+    //   })
+    // }
+
+    // Se deu certo, próxima etapa
     next();
-  } catch (error) {
+  } catch (error: any) {
     return response.status(500).json({
       success: false,
       code: response.statusCode,
-      message: "Erro"
+      message: error.toString()
+    })
+  }
+}
+
+export async function validateLoginOlderAge(request: Request, response: Response, next: NextFunction) {
+  try {
+    const { idStudent } = request.params
+
+    const result = await authService.validateLoginOlderAge(idStudent)
+
+    if (!result.success) {
+      return response.status(result.code).json(result)
+    }
+
+    // Se der tudo certo, chama o próximo
+    next()
+  } catch (error: any) {
+    return response.status(500).json({
+      success: false,
+      message: error.toString(),
+      code: response.statusCode
     })
   }
 }
