@@ -58,16 +58,14 @@ export class AuthService {
   }
 
   public async validateLogin(token: string, idStudent: string): Promise<ResponseData> {
-    // Verifico se o token jwt é válido
+    // Validar o token
     const payload = this.validateToken(token) as PayloadToken
 
-    // Busca o id do estudante no jwt
-    // Valido o id do token com o id da requisição
-    if (payload === null || idStudent !== payload.id) {
+    if (!payload || idStudent !== payload.id) {
       return {
         success: false,
-        message: 'Token de autenticação inválido',
-        code: 401
+        message: 'Token de autenticação inválido.',
+        code: 401 // unauthorized
       }
     }
 
@@ -108,6 +106,7 @@ export class AuthService {
     }
   }
 
+  // Criar o token
   public generateToken(payload: any) {
     const token = jwt.sign(payload, process.env.JWT_SECRET!, {
       expiresIn: '1d'

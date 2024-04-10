@@ -5,45 +5,34 @@ const authService = new AuthService()
 
 export async function validateToken(request: Request, response: Response, next: NextFunction) {
   try {
-    // authorization: b00c9d5a-f84e-4407-a747-ad574722c919
-    const { authorization } = request.headers;
+    // 1. entrada
+    const { authorization } = request.headers
     const { idStudent } = request.params
 
     if (!authorization) {
+      // 401 -> Unauthorized
       return response.status(401).json({
         success: false,
-        code: response.statusCode,
-        message: "Token de autenticação não informado."
+        message: 'Token de autenticação não informado.',
+        code: response.statusCode
       })
     }
 
+    // 2. processamento
     const result = await authService.validateLogin(authorization, idStudent)
 
-    if (!result.success) {
+    if(!result.success) {
       return response.status(result.code).json(result)
     }
 
-    // const student = await repository.student.findUnique({
-    //   where: {
-    //     id: idStudent
-    //   }
-    // })
-
-    // if (!student || student.token !== authorization) {
-    //   return response.status(401).json({
-    //     success: false,
-    //     code: response.statusCode,
-    //     message: "Token de autenticação inválido."
-    //   })
-    // }
-
-    // Se deu certo, próxima etapa
-    next();
+    // 3. saída
+    // Deu tudo certo, chama o próximo
+    next()
   } catch (error: any) {
     return response.status(500).json({
       success: false,
-      code: response.statusCode,
-      message: error.toString()
+      message: error.toString(),
+      code: response.statusCode
     })
   }
 }
