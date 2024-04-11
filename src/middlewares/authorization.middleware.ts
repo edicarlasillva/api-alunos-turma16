@@ -26,3 +26,42 @@ export async function validateCreateAssessment(request: Request, response: Respo
     return serverError(response, error)
   }
 }
+
+export async function validateEditDeleteAssessment(request: Request, response: Response, next: NextFunction) {
+  try {
+    // 1. entrada
+    const { authorization } = request.headers
+
+    // 2. processamento
+    const result = authorizationService.validateAuthorization(authorization!, [
+      TypeStudent.TechHelper
+    ])
+
+    if (!result.success) {
+      return response.status(result.code).json(result)
+    }
+
+    // 3. saída
+    next()
+  } catch (error: any) {
+    return serverError(response, error)
+  }
+}
+
+export function validateAuthorizationPermissions(permittedTypes: TypeStudent[]) {
+  return (request: Request, response: Response, next: NextFunction) => {
+    try {
+      const { authorization } = request.headers
+
+      const result = authorizationService.validateAuthorization(authorization!, permittedTypes)
+
+      if (!result.success) {
+        return response.status(result.code).json(result)
+      }
+
+      next()
+    } catch (error: any) {
+      return serverError(response, error)
+    }
+  }
+}
