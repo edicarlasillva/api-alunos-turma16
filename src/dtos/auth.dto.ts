@@ -1,4 +1,5 @@
 import { JwtPayload } from "jsonwebtoken";
+import { TypeStudent } from "../models/student.model";
 
 export interface AuthDTO {
   email: string
@@ -7,7 +8,8 @@ export interface AuthDTO {
 
 export interface PayloadToken extends JwtPayload {
   id: string
-  name: string
-  email: string
-  age: number
+  type: TypeStudent
+  // name: string
+  // email: string
+  // age: number
 }

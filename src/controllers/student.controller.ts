@@ -1,7 +1,7 @@
-import { Request, Response } from 'express'
+import { Request, Response } from 'express';
 
-import { StudentService } from '../services/student.service'
 import { CreateStudentDTO } from '../dtos/students.dto';
+import { StudentService } from '../services/student.service';
 
 const studentService = new StudentService();
 
@@ -27,7 +27,7 @@ export class StudentController {
   public async store(request: Request, response: Response) {
     try {
       //entrada
-      const { name, email, password, age } = request.body
+      const { name, email, password, age, type } = request.body
 
       if (!name || !email || !password) {
         return response.status(400).json({
@@ -37,7 +37,7 @@ export class StudentController {
         })
       }
 
-      const student: CreateStudentDTO = { name, email, password, age }
+      const student: CreateStudentDTO = { name, email, password, age, type }
 
       const result = await studentService.create(student)
 

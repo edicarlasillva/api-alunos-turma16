@@ -30,6 +30,7 @@ export class StudentService {
       studentDTO.name,
       studentDTO.email,
       studentDTO.password,
+      studentDTO.type,
       studentDTO.age
     )
 
@@ -38,6 +39,7 @@ export class StudentService {
         name: newStudent.name,
         email: newStudent.email,
         password: newStudent.password,
+        type: newStudent.type,
         age: newStudent.age
       }
     })

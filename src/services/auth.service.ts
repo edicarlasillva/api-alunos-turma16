@@ -18,6 +18,7 @@ export class AuthService {
         name: true,
         email: true,
         age: true,
+        type: true
       }
     })
 
@@ -32,7 +33,12 @@ export class AuthService {
 
     // const token = randomUUID()
     // const token = jwt.sign(student, process.env.JWT_SECRET!)
-    const token = this.generateToken(student)
+    const user = {
+      id: student.id,
+      type: student.type
+    }
+
+    const token = this.generateToken(user)
 
     // await repository.student.update({
     //   where: {
@@ -123,5 +129,9 @@ export class AuthService {
     } catch (error: any) {
       return null
     }
+  }
+
+  public decodeToken(token: string) {
+    return jwt.decode(token)
   }
 }

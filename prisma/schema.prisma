@@ -19,6 +19,9 @@ model Student {
 
   token String?
 
+  // Default, porque senão a coluna type ficará null nos estudantes que já estão cadastrados
+  type String @default("M") @db.VarChar(1) // Apenas um caracter (M, T, F)
+
   createdAt DateTime @default(now()) @map("crated_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
