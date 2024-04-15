@@ -8,6 +8,7 @@ const authService = new AuthService()
 export class AuthorizationService {
   public validateAuthorization(token: string, permittedTypes: TypeStudent[]): ResponseData {
     const payload = authService.decodeToken(token) as PayloadToken
+    // const payload2 = authService.decodeTokenOld()
 
     if (!permittedTypes.includes(payload.type)) {
       return {

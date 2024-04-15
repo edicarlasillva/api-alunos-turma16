@@ -7,6 +7,21 @@ import { AuthDTO, PayloadToken } from "../dtos/auth.dto";
 import { ResponseData } from "../dtos/response.dto";
 
 export class AuthService {
+  /**
+   * Realiza uma autenticação na API através de login com e-mail e senha.
+   * ```ts
+   *    const authService = new AuthService();
+   *    const result = await authService.login({
+   *      email: "exemplo@gmail.com",
+   *      password: "123456"
+   *    })
+   * ```
+   * 
+   * @author Carla Silva
+   * @param data DTO contendo email e password
+   * @async por conta da chamada ao banco de dados
+   * @returns um objeto contendo informações de erro/sucesso e os dados do usuário logado (com token)
+   */
   public async login(data: AuthDTO): Promise<ResponseData> {
     const student = await repository.student.findFirst({
       where: {
@@ -63,6 +78,12 @@ export class AuthService {
     };
   }
 
+  /**
+   * Valida se o token é válido ou não
+   * @param token token informado pelo usuário
+   * @param idStudent ID do aluno
+   * @returns os dados do aluno
+  */
   public async validateLogin(token: string, idStudent: string): Promise<ResponseData> {
     // Validar o token
     const payload = this.validateToken(token) as PayloadToken
@@ -132,6 +153,15 @@ export class AuthService {
   }
 
   public decodeToken(token: string) {
+    return jwt.decode(token)
+  }
+
+  /**
+   * Método para decodificar um token JWT.
+   * 
+   * @deprecated Esse método está obsoleto
+   */
+  public decodeTokenOld(token: string) {
     return jwt.decode(token)
   }
 }
