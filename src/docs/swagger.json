@@ -47,6 +47,48 @@
             "description": "Erro genérico do servidor."
           }
         }
+      },
+      "post": {
+        "tags": ["Students"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "example": "Jéssica Silva"
+                  },
+                  "email": {
+                    "type": "string",
+                    "example": "jessica@gmail.com"
+                  },
+                  "password": {
+                    "type": "string",
+                    "example": "123456"
+                  },
+                  "type": {
+                    "type": "string",
+                    "example": "T"
+                  },
+                  "age": {
+                    "type": "number",
+                    "example": 26
+                  }
+                },
+                "required": [
+                  "name", "email", "password", "type"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Sucesso"
+          }
+        }
       }
     }
   },
