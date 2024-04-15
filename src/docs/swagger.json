@@ -1,0 +1,88 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Api de alunos",
+    "description": "Sistema de cadastro de alunos Growdev",
+    "version": "1.0.0"
+  },
+  "tags": [
+    {
+      "name": "Students",
+      "description": "Rotas relacionadas a alunos",
+      "externalDocs": {
+        "description": "Aqui uma descrição sobre a doc qualquer",
+        "url": "http://www.swagger.io"
+      }
+    },
+    {
+      "name": "Login",
+      "description": "Rotas de autenticação"
+    },
+    {
+      "name": "Assessments",
+      "description": "Rotas de avaliação"
+    }
+  ],
+  "paths": {
+    "/students": {
+      "description": "Rota para listar todos os aluno.",
+      "get": {
+        "tags": ["Students"],
+        "description": "Lista todos os alunos cadastrados.",
+        "responses": {
+          "200": {
+            "description": "Sucesso ao listar alunos.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/student"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro genérico do servidor."
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "student": {
+        "description": "Interface de modelagem de um aluno",
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "example": "d594a8e6-3b4b-49fe-9b6d-4d66d443ea7f"
+          },
+          "name": {
+            "type": "string",
+            "example": "John Doe"
+          },
+          "email": {
+            "type": "string",
+            "example": "john@gmail.com"
+          },
+          "password": {
+            "type": "string",
+            "example": "123456"
+          },
+          "type": {
+            "type": "string",
+            "example": "M"
+          },
+          "age": {
+            "type": "number",
+            "example": "35",
+            "nullable": true
+          }
+        }
+      }
+    }
+  }
+}
