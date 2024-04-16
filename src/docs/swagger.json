@@ -181,6 +181,41 @@
           }
         ]
       }
+    },
+    "/students/{id}": {
+      "get": {
+        "tags": ["Students"],
+        "description": "Obter um único aluno através do seu ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "description": "ID do usuário a ser consultado",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Aluno obtido cm sucesso.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/student"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Aluno não encontrado"
+          },
+          "500": {
+            "description": "Erro genérico do servidor"
+          }
+        }
+      }
     }
   },
   "components": {
