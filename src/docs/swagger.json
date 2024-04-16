@@ -90,6 +90,97 @@
           }
         }
       }
+    },
+    "/login": {
+      "description": "Rotas de autenticação",
+      "post": {
+        "tags": ["Login"],
+        "description": "Realiza autenticação mediante login com e-mail e senha.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "example": "carla@gmail.com"
+                  },
+                  "password": {
+                    "type": "string",
+                    "example": "123456"
+                  }
+                },
+                "required": [
+                  "email", "password"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Login realizado com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/loginSuccess"
+                }
+              }
+            }
+          }, 
+          "400": {
+            "description": "Campos obrigatórios não informados."
+          },
+          "401": {
+            "description": "Credenciais inválidas."
+          },
+          "500": {
+            "description": "Erro genérico de servidor."
+          }
+        }
+      }
+    },
+    "/students/{id}/assessments": {
+      "get": {
+        "tags": ["Assessments"],
+        "description": "Obter avaliações de um aluno.",
+        "parameters": [
+          {
+            "name": "id",
+            "description": "ID do usuário a ser consultado.",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Avaliações listadas com sucesso.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "$ref": "#/components/schemas/assessmentSuccess"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Avaliação não encontrada"
+          },
+          "500": {
+            "description": "Erro genérido de servidor."
+          }
+        },
+        "security": [
+          {
+            "auth": []
+          }
+        ]
+      }
     }
   },
   "components": {
@@ -124,6 +215,39 @@
             "nullable": true
           }
         }
+      },
+      "loginSuccess": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "token": {
+            "type": "string"
+          }
+        }
+      },
+      "assessmentSuccess": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "discipline": {
+            "type": "string"
+          },
+          "grade": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "auth": {
+        "name": "Authorization",
+        "in": "header",
+        "description": "JWT Authorization",
+        "type": "apiKey"
       }
     }
   }
