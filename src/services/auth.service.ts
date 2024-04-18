@@ -1,7 +1,7 @@
 // import { randomUUID } from "crypto";
 import jwt from 'jsonwebtoken';
 
-import { repository } from "../database/prisma.connection";
+import repository from "../database/prisma.connection";
 
 import { AuthDTO, PayloadToken } from "../dtos/auth.dto";
 import { ResponseData } from "../dtos/response.dto";
