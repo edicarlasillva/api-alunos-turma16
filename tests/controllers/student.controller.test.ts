@@ -105,8 +105,6 @@ describe("Testes integrados para rotas de alunos", () => {
       let studentId = createStudentResponse.body.data.id
       let token = loginResponse.body.data.token
 
-      console.log(studentId, token, createStudentResponse)
-
       // let {id, token} = loginResponse.body.data
 
       const result = await supertest(sut)
@@ -115,6 +113,79 @@ describe("Testes integrados para rotas de alunos", () => {
 
       // validações
       expect(result.status).toBe(200)
+      expect(result.body.success).toBe(true)
+      expect(result.body.data).toBeDefined()
+    })
+  })
+
+  describe("Criar avaliações", () => {
+    test("Deve retornar 401 quando o token não for fornecido", async () => {
+      const sut = createApp()
+
+      const result = await supertest(sut)
+        .post("/students/any_id/assessments")
+        .send({
+          discipline: "Qualidade de Software",
+          grade: 8
+        })
+
+      // validações
+      expect(result.status).toBe(401) // 401 -> Unauthorized
+      expect(result.body).toHaveProperty("message", "Token de autenticação não informado.")
+      expect(result.body).toHaveProperty("success", false)
+    })
+
+    test("Deve retornar 401 quando o token fornecido for inválido", async () => {
+      const sut = createApp()
+
+      const result = await supertest(sut)
+        .post("/students/any_id/assessments")
+        .set("Authorization", "any_token")
+        .send({
+          discipline: "Qualidade de Software",
+          grade: 8
+        })
+
+      // validações
+      expect(result.status).toBe(401)
+      expect(result.body).toHaveProperty("message", "Token de autenticação inválido.")
+      expect(result.body).toHaveProperty("success", false)
+    })
+
+    test("Deve retornar 201 quando criar uma avaliação para um aluno", async () => {
+      const sut = createApp()
+
+      await supertest(sut)
+        .post("/students")
+        .send({
+          name: "Jane Doe",
+          email: "janedoe@gmail.com",
+          password: "123456",
+          age: 25,
+          type: "M"
+        })
+
+      const loginResponse = await supertest(sut)
+        .post("/login")
+        .send({
+          email: "janedoe@gmail.com",
+          password: "123456",
+        })
+
+      // let studentId = loginResponse.body.data.id
+      // let token = loginResponse.body.data.token
+
+      let { id, token } = loginResponse.body.data
+
+      const result = await supertest(sut)
+        .post(`/students/${id}/assessments`)
+        .set("Authorization", token)
+        .send({
+          discipline: "Qualidade de Software",
+          grade: 8
+        })
+
+      expect(result.status).toBe(201)
       expect(result.body.success).toBe(true)
       expect(result.body.data).toBeDefined()
     })
