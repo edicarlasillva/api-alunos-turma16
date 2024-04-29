@@ -110,7 +110,7 @@ describe("Testes integrados para rotas de alunos", () => {
       // let {id, token} = loginResponse.body.data
 
       const result = await supertest(sut)
-        .get(`students/${studentId}/assessments`)
+        .get(`/students/${studentId}/assessments`)
         .set("Authorization", token)
 
       // validações
