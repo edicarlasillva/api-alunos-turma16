@@ -9,7 +9,9 @@
     "test": "jest --silent --noStackTrace",
     "test:verbose": "jest --verbose --detectOpenHandles",
     "test:coverage": "jest --coverage",
-    "test:watch": "jest --silent --noStackTrace --watchAll"
+    "test:watch": "jest --silent --noStackTrace --watchAll",
+    "test:e2e": "jest -c jest.e2e.config.ts --verbose --watchAll",
+    "test:unit": "jest -c jest.unit.config.ts --verbose --watchAll"
   },
   "keywords": [],
   "author": "",
